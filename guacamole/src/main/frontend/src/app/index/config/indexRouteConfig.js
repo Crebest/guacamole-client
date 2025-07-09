@@ -117,6 +117,21 @@ angular.module('index').config(['$routeProvider', '$locationProvider',
     // Configure each possible route
     $routeProvider
 
+        // Logout route
+        .when('/logout', {
+            resolve: {
+                logout: ['$injector', function($injector) {
+                    var $location = $injector.get('$location');
+                    var authenticationService = $injector.get('authenticationService');
+                    // 调用登出方法
+                    return authenticationService.logout().finally(function() {
+                        // 跳转到登录页
+                        $location.path('/');
+                    });
+                }]
+            }
+        })
+
         // Home screen
         .when('/', {
             title         : 'APP.NAME',
